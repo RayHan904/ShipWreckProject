@@ -1,0 +1,26 @@
+{
+  "name": "shipwreckproject",
+  "version": "1.0.0",
+  "description": "final framework project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RayHan904/ShipWreckProject.git"
+  },
+  "author": "Rehan, Anton, Sawan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RayHan904/ShipWreckProject/issues"
+  },
+  "homepage": "https://github.com/RayHan904/ShipWreckProject#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "express": "^4.18.2",
+    "express-validator": "^6.15.0",
+    "handlebars": "^4.7.7",
+    "mongoose": "^7.0.3"
+  }
+}
