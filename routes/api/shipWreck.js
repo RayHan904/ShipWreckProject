@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 var ObjectId = require("mongodb").ObjectId;
-
+const { requireAuth } = require("../../middleware/authMiddleware");
 const ShipWreck = require("../../models/ShipWreck");
 
 router.get("/", (req, res) => res.send("ShipWreck related routes"));
@@ -23,11 +23,11 @@ router.get("/show", function (req, res) {
   res.render("show");
 });
 
-router.get("/updateForm", function (req, res) {
+router.get("/updateForm",requireAuth, function (req, res) {
   res.render("updateForm");
 });
 
-router.get("/deleteForm", function (req, res) {
+router.get("/deleteForm",requireAuth,  function (req, res) {
   res.render("deleteForm");
 });
 
@@ -46,12 +46,9 @@ router.get("/data", (req, res) => {
       if (!data) {
         res.status(400).send("Data not found");
       } else {
-        console.log(data)
-        res.status(200).render("show", {
-            data1: data,
-          });
+        console.log(data);
+        res.status(200).send(data)
       }
-
     })
     .catch((err) => console.log(err));
 });
@@ -64,11 +61,9 @@ router.get("/data/:_id", (req, res) => {
       if (!data) {
         return res.status(404).send("Data not found");
       } else {
-        console.log(data)
+        console.log(data);
 
-        res.status(200).render("show", {
-          data2: data,
-        });
+        res.status(200).send(data)
       }
     })
     .catch((err) => {
@@ -95,7 +90,7 @@ router.post("/add", (req, res) => {
 });
 
 /* -------------------------------------------------------- UPDATE DATA ----------------------------------------------- */
-router.post("/update", (req, res) => {
+router.post("/update",requireAuth, (req, res) => {
   x = new ObjectId(req.body._id);
   ShipWreck.findOne({ _id: x }).then((shipwreck) => {
     console.log(shipwreck);
@@ -123,6 +118,27 @@ router.post("/update", (req, res) => {
         });
     }
   });
+});
+/* -------------------------------------------------------- DELETE DATA ----------------------------------------------- */
+router.post("/delete",requireAuth,  (req, res) => {
+  x = new ObjectId(req.body._id);
+  ShipWreck.deleteOne({ _id: x })
+    .exec()
+    .then((data) => {
+      if (data.deletedCount === 0) {
+        return res.status(404).render("index", {
+          data: "Data Not Found",
+        });
+      } else {
+        res.status(201).render("index", {
+          data: "Deleted Successfully",
+        }),
+          console.log(data);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 module.exports = router;

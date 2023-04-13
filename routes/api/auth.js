@@ -94,6 +94,8 @@ router.post("/login", (req, res) => {
               { expiresIn: 3600 },
               (err, token) => {
                 //Send message
+
+                res.cookie("jwt", token, { httpOnly: false });
                 res.render("index", {
                   data: "Log In Successful. Now you can Get an access to delete data. Click DELETE button ",
                   newtoken: token,
@@ -120,26 +122,6 @@ router.post("/login", (req, res) => {
   });
 });
 /* -------------------------------------------------------- PRIVATE ROUTE ----------------------------------------------- */
-/* -------------------------------------------------------- DELETE DATA ----------------------------------------------- */
-router.post("/delete", (req, res) => {
-  x = new ObjectId(req.body._id);
-  ShipWreck.deleteOne({ _id: x })
-    .exec()
-    .then((data) => {
-      if (data.deletedCount === 0) {
-        return res.status(404).render("index", {
-            data: "Data Not Found",
-          });
-      } else {
-        res.status(201).render("index", {
-            data: "Deleted Successfully",
-          }),
-          console.log(data);
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+
 
 module.exports = router;

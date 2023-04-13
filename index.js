@@ -6,9 +6,12 @@ const passport = require("passport");
 var path = require("path");
 require("dotenv").config();
 
+var cookies = require("cookie-parser");
+
 const port = process.env.PORT;
 
 const app = express();
+app.use(cookies());
 
 // middleware for bodyparser
 app.use(bodyParser.urlencoded({ extended: true }));
