@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const exphbs = require("express-handlebars");
-const passport = require('passport')
+const passport = require("passport");
 var path = require("path");
 require("dotenv").config();
 
@@ -38,24 +38,20 @@ mongoose
   .then(() => console.log("MongoDB connected successfully."))
   .catch((err) => console.log(err));
 
+//Render Home page
+app.get("/", function (req, res) {
+  res.render("index");
+});
+
 // Get profile routes
 const route = require("./routes/api/shipWreck");
-const auth = require('./routes/api/auth');
-
-app.get("/", (req, res) => {
-  res.send("Project is Running");
-});
+const auth = require("./routes/api/auth");
 
 // mapping to actual routes
 app.use("/api/auth", auth);
 app.use("/api/shipwreck", route);
 
-//Render Home page
-app.get('/', function (req, res) {
-  res.render('index')
-})
-
 // Config for JWT strategy
-require('./strategies/jsonwtStrategy')(passport)
+require("./strategies/jsonwtStrategy")(passport);
 
 app.listen(port, () => console.log(`App running at port : ${port}`));

@@ -1,17 +1,39 @@
 <div class="full-view">
-    {{#if data}}
-    {{#each data}}
-    <section class="section">
+  <div>
+    <a href="/api/shipwreck/showDataForm">Show All</a>
+    <a href="/api/shipwreck/showOneForm">Show One</a>
+  </div>
+
+  {{#if data2}}
+      <section class="section">
         <div id="mainPart">
-            <p> Feature Type: {{ this.feature_type }}</p>
-            <p> Chart: {{ this.chart }}</p>
-            <p> Latitude: {{ this.latdec }}</p>
-            <p> Longitude: {{ this.londec }}</p>
-            <p> Depth: {{ this.depth }}</p>
-            <p> Water Level: {{ this.watlev }}</p>
+          <p> Feature Type: {{this.feature_type}}</p>
+          <p> Chart: {{this.chart}}</p>
+          <p> Latitude: {{this.latdec}}</p>
+          <p> Longitude: {{this.londec}}</p>
+          <p> Depth: {{this.depth}}</p>
+          <p> Water Level: {{this.watlev}}</p>
         </div>
-    </section>
+      </section>
+  {{/if}}
+  
+  {{#if data1}}
+    {{#each data1}}
+      <section class="section">
+        <div id="mainPart">
+          <p> Feature Type: {{this.feature_type}}</p>
+          <p> Chart: {{this.chart}}</p>
+          <p> Latitude: {{this.latdec}}</p>
+          <p> Longitude: {{this.londec}}</p>
+          <p> Depth: {{this.depth}}</p>
+          <p> Water Level: {{this.watlev}}</p>
+        </div>
+      </section>
     {{/each}}
-    {{/if}}
+  {{/if}}
+
+ 
+
+  
 
 </div>
