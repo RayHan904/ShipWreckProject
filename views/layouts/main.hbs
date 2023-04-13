@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{title}}</title>
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    </head>
+    <body> 
+        <header>
+            <div class="header">
+                <p><b>Final project of Web Framework 1</b></p>
+            </div>
+            
+        </header>
+        {{!-- 5 Buttons to Manipulate with Data --}}
+        <nav class="menu">
+            <a href="/api/auth/registerPage">Create User</a>
+            &nbsp;&nbsp;
+            <a href="/api/auth/loginPage">Login</a>
+            &nbsp;&nbsp;
+            <a href="/api/shipwreck/addForm">Add New Shipwreck</a>
+            &nbsp;&nbsp;
+            <a href="/api/shipwreck/updateForm">Update</a>
+            &nbsp;&nbsp;
+            <a href="/api/shipwreck/deleteForm">Delete</a>
+            &nbsp;&nbsp;
+            <a href="/api/shipwreck/show">Show</a>
+        </nav>
+        {{{body}}}
+        <footer>
+            <p><b>Team:</b> Anton   Rehan   Sawan.</p>
+        </footer>
+    </body>
+</html>
