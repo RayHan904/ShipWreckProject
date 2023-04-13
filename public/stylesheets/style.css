@@ -1,0 +1,114 @@
+/* -------------------------------------------------- */
+/* BASIC SETUP */
+/* -------------------------------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Arial', 'Helvetica', 'sans-serif';
+    font-size: 15px;
+    font-weight: 300;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(20, 20, 20);
+    padding: 1vh;
+}
+.header p {
+    font-size: 20px;
+    color: aliceblue !important;
+}
+
+body {
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    /* text-align: center; */
+    min-height: 100vh;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.menu{
+    display: flex;
+    justify-content: space-around;
+    background-color: #202a30;
+    padding: 1vh 0 2vh 0;
+}
+
+.menu a{
+    color: aliceblue !important;
+    font-style: italic;
+    font-size: 18px;
+
+}
+
+footer{
+    text-align: center;
+    font-size: 20px;
+    color: aliceblue;
+    background-color: #202a30;
+    padding: 1vh 0 1vh 0;
+}
+.center-align{
+    text-align: center;
+}
+
+.full-view{
+    min-height: 85vh;
+    height: fit-content;
+}
+input{
+    width: 300px;
+}
+
+.token {
+    color:red;
+    width:600px; 
+    height:fit-content;
+}
+/*  -------------------------  Style for data.hbs ----------------------------  */
+.buttons{
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1vh 0 2vh 0;
+}
+.buttons button{
+    background-color: #7552a8ce;
+    padding: 20px;
+    text-align: center;
+}
+
+/*  -------------------------  Style for isbn.hbs ----------------------------  */
+form {
+    width: 100vw;
+    text-align: center;
+    margin: 10px 0 10px 0;
+}
+.section{
+    margin: auto;
+    padding: 2vh;
+    width: 70vw;
+    height: fit-content;
+    background-color: #c2e9e9cf;
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+    border-radius: 18px;
+}
+div#header{
+    display: flex;
+    justify-content: space-between;
+}
+
+div#header p{
+    font-size: larger;
+    font-weight: 600;
+}
+
+div#mainPart article p {
+    border: 2px solid grey;
+    padding: 10px ;
+}

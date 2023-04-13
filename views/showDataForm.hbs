@@ -1,0 +1,23 @@
+<div class="full-view">
+    <form>
+        <input id="pages" type="text" placeholder="Enter Number of Pages" name="pages">
+        <br>
+        <input id="perPage" type="text" placeholder="Enter Chart" name="perPage">
+        <br>
+        <input id="depth" type="text" placeholder="Latitude:" name="latdec">
+        <br><br>
+        <button id="button">UPDATE</button>
+    </form>
+</div>
+<script>
+    let button = document.querySelector("#button")
+
+    button.onclick = function () {
+        let pages = document.querySelector("#pages").value
+        let perPage = document.querySelector("#perPage").value
+        let depth = document.querySelector("#depth").value
+
+        let url = `/api/auth/data?pages=${pages}&perPage=${perPage}&depth=${depth}`
+        location.href = url
+    }
+</script>
