@@ -11,25 +11,47 @@ router.get('/addForm', function (req, res) {
   res.render('addForm')
 })
 
+router.get('/showDataForm', function (req, res) {
+  res.render('showDataForm')
+})
+
+router.get('/showOneForm', function (req, res) {
+  res.render('showOneForm')
+})
+
+router.get('/updateForm', function (req, res) {
+  res.render('updateForm')
+})
+
+router.get('/deleteForm', function (req, res) {
+  res.render('deleteForm')
+})
+
+
+
 /* -------------------------------------------------------- SHOW DATA ----------------------------------------------- */
 //Show all data based on number of instances per page. 
 //Filtered(optionaly) by depth
 router.get("/data", async (req, res) => {
-  const page = parseInt(req.query.page);
+  const page = parseInt(req.query.pages);
   const perPage = parseInt(req.query.perPage);
   const depth = req.query.depth ? { depth: req.query.depth } : {};
 
-  const shipwrk = await ShipWreck.find(depth)
+  const shipwrks = await ShipWreck.find(depth)
     .skip((page - 1) * perPage)
-    .limit(perPage);
-  try {
-    if (!shipwrk) {
-      return res.status(404).send("Data not found");
-    }
-    res.send(shipwrk);
-  } catch (err) {
-    res.status(500).send(error);
-  }
+    .limit(perPage)
+    .then((shipwreck) => {
+      if(!shipwreck) {
+        res.status(400).send("Data not found")
+      }
+      else {
+        shipwrks => res.render('showAll',
+        {
+            data: shipwrks
+        })
+        .catch(err => console.log(err))
+      }
+    })
 });
 
 //Show particular shipwreck based on it's _id in collection
@@ -50,75 +72,51 @@ router.get("/data/:_id", (req, res) => {
 
 /* -------------------------------------------------------- ADD DATA ----------------------------------------------- */
 router.post("/add", (req, res) => {
-  const newShipWreck = new ShipWreck({
-    feature_type: req.body.feature_type,
-    chart: req.body.chart,
-    latdec: req.body.latdec,
-    londec: req.body.londec,
-    depth: req.body.depth,
-    watlev: req.body.watlev,
-  });
+  const newShipWreck = new ShipWreck(
+    req.body
+  );
 
   newShipWreck
     .save()
     .then(
-      // (shipwrk) => res.send(shipwrk)   <-- We dont want to show data about currently added shipwreck. We want to get back to home page
-
-      //Send Feedback Message at Home Page
+     //Send Feedback Message at Home Page
       res.render('index',
-      {
+        {
           data: "Registered Successfully"
-      })
+        })
     )
     .catch((err) => console.log(err));
 });
 
 /* -------------------------------------------------------- UPDATE DATA ----------------------------------------------- */
-router.put("/data/:_id", (req, res) => {
-  x = new ObjectId(req.params._id);
-  ShipWreck.updateOne(
-    { _id: x },
-    {
-      $set: {
-        feature_type: req.body.feature_type,
-        chart: req.body.chart,
-        latdec: req.body.latdec,
-        londec: req.body.londec,
-        depth: req.body.depth,
-        watlev: req.body.watlev,
-      },
-    },
-  )
-    .exec()
-    .then((data) => {
-      if (data.matchedCount === 0) {
-        return res.status(404).send("Data not found");
-      } else {
-        console.log(data);
-        res.status(201).send("Shipwreck Updated.");
+router.post("/update", (req, res) => {
+  x = new ObjectId(req.body._id);
+  ShipWreck.findOne({ _id: x })
+    .then(shipwreck => {
+      if (!shipwreck) {
+        res.status(400).send("Data not found")
       }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+      else {
+        ShipWreck.updateOne(
+          { _id: x },
+          {
+            $set: req.body
+          }
+        )
+          .exec().then(
 
-/* -------------------------------------------------------- DELETE DATA ----------------------------------------------- */
-router.delete("/data/:_id", (req, res) => {
-  x = new ObjectId(req.params._id);
-  ShipWreck.deleteOne({ _id: x })
-    .exec()
-    .then((data) => {
-      if (data.deletedCount === 0) {
-        return res.status(404).send("Data not found");
-      } else {
-        console.log(data);
-        res.status(201).send("Shipwreck Deleted.");
+            //Send Feedback Message at Home Page
+            res.status(201).render('index',
+              {
+                data: "Registered Successfully"
+              })
+          ).catch((err) => {
+            console.log(err);
+          });
       }
-    })
-    .catch((err) => {
-      console.log(err);
     });
-});
+  });
 
-module.exports = router;
+  
+
+  module.exports = router;

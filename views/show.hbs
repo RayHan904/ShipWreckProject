@@ -1,0 +1,17 @@
+<div class="full-view">
+    {{#if data}}
+    {{#each data}}
+    <section class="section">
+        <div id="mainPart">
+            <p> Feature Type: {{ this.feature_type }}</p>
+            <p> Chart: {{ this.chart }}</p>
+            <p> Latitude: {{ this.latdec }}</p>
+            <p> Longitude: {{ this.londec }}</p>
+            <p> Depth: {{ this.depth }}</p>
+            <p> Water Level: {{ this.watlev }}</p>
+        </div>
+    </section>
+    {{/each}}
+    {{/if}}
+
+</div>

@@ -106,7 +106,7 @@ router.post('/login', (req, res) => {
                                             data: "Log In Successful. Now you can Get an access to delete data. Click DELETE button ",
                                             newtoken: token
                                         })
-                                        console.log(err)
+                                        // console.log(err)
                                         // res.json({
                                         //     success: true,
                                         //     token: 'Bearer ' + token
@@ -131,8 +131,23 @@ router.post('/login', (req, res) => {
 
 })
 /* -------------------------------------------------------- PRIVATE ROUTE ----------------------------------------------- */
-//DO SOME ROUTE e.x. /delete
-
+/* -------------------------------------------------------- DELETE DATA ----------------------------------------------- */
+router.post("/data/:_id", (req, res) => {
+    x = new ObjectId(req.params._id);
+    ShipWreck.deleteOne({ _id: x })
+      .exec()
+      .then((data) => {
+        if (data.deletedCount === 0) {
+          return res.status(404).send("Data not found");
+        } else {
+          console.log(data);
+          res.status(201).send("Shipwreck Deleted.");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
 
 module.exports = router

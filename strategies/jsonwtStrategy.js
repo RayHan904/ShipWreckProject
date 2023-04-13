@@ -9,8 +9,8 @@ const key = settings.secret
 
 var opts = {}
 // JWT can be sent in many forms, other method to extract it fromHeader(), fromBodyField(), fromUrlQueryParameter()
-// opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
-opts.jwtFromRequest = ExtractJwt.fromBodyField("token")
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
+// opts.jwtFromRequest = ExtractJwt.fromBodyField("token")
 // secret may be used to verify whether call is from right source or not.
 //When you receive a JWT from the client, you can verify that JWT with this that secret key stored on the server.
 opts.secretOrKey = key
