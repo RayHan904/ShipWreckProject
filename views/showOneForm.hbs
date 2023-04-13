@@ -1,0 +1,15 @@
+<div class="full-view">
+    <form>
+    <input id="id" type="text" placeholder="Enter ID" name="_id">
+    <br><br>
+    <button id="findBtn" >DELETE</button>
+</form>
+</div>
+<script>
+      let button = document.querySelector("#findBtn")  
+      let id = document.querySelector("#id").value
+      button.onclick = function (){
+        let url = `/api/auth/data/${id}`
+        location.href = url
+      }
+</script>
