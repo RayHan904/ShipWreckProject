@@ -1,105 +1,104 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
+var ObjectId = require("mongodb").ObjectId;
 
-// Import Person schema
-const Person = require('../../models/ShipWreck')
+const ShipWreck = require("../../models/ShipWreck");
 
-//@type     -   GET
-//@route    -   /api/profile
-//@desc     -   Just for testing
-//@access   -   PUBLIC
-router.get('/', (req, res) => res.send('Profile related routes'))
+router.get("/", (req, res) => res.send("ShipWreck related routes"));
 
+router.get("/data", async (req, res) => {
+  const page = parseInt(req.query.page);
+  const perPage = parseInt(req.query.perPage);
+  const depth = req.query.depth ? { depth: req.query.depth } : {};
 
-//@type     -   GET
-//@route    -   /api/profile/get
-//@desc     -   Get all people record
-//@access   -   PUBLIC
-router.get('/get', async (req, res) => {
-    
-    // without cursor.
-    const people = await Person.find({});
-    try {
-        res.send(people);
-    } catch (error) {
-        res.status(500).send(error);
+  const shipwrk = await ShipWreck.find(depth)
+    .skip((page - 1) * perPage)
+    .limit(perPage);
+  try {
+    if (!shipwrk) {
+      return res.status(404).send("Data not found");
     }
+    res.send(shipwrk);
+  } catch (err) {
+    res.status(500).send(error);
+  }
+});
 
-    // with cursor
-    // const cursor = await Person.find()
-    // cursor.forEach(function(myDoc) {
-    //     console.log( myDoc ); 
-    // })
-})
+router.get("/data/:_id", (req, res) => {
+  x = new ObjectId(req.params._id);
+  ShipWreck.findOne({ _id: x })
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send("Data not found");
+      }
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send(err);
+    });
+});
 
-//@type     -   GET
-//@route    -   /api/profile/get/:username
-//@desc     -   Get a person record
-//@access   -   PUBLIC
-router.get('/get/:username', (req, res) => {
-    Person
-        .findOne({username: req.params.username})
-        .then(person => res.send(person))
-        .catch(err => console.log(err))
-})
+router.post("/add", (req, res) => {
+  const newShipWreck = new ShipWreck({
+    feature_type: req.body.feature_type,
+    chart: req.body.chart,
+    latdec: req.body.latdec,
+    londec: req.body.londec,
+    depth: req.body.depth,
+    watlev: req.body.watlev,
+  });
 
-//@type     -   POST
-//@route    -   /api/profile/add
-//@desc     -   Insert a person record
-//@access   -   PUBLIC
-router.post('/add', (req, res) => {
-    // check to keep usernames unique
-    Person
-        .findOne({username: req.body.username})
-        .then(person => {
-            if (person) {
-                return res
-                        .status(400)
-                        .send('Username already exists')    
-            } else {
-                const newPerson = Person({
-                    name: req.body.name,
-                    username: req.body.username,
-                    password: req.body.password
-                })
+  newShipWreck
+    .save()
+    .then((shipwrk) => res.send(shipwrk))
+    .catch((err) => console.log(err));
+});
 
-                newPerson
-                    .save()
-                    .then(person => res.send(person))
-                    .catch(err => console.log(err))
-            }
-        })
-        .catch(err => console.log(err))
-})
+router.put("/data/:_id", (req, res) => {
+  x = new ObjectId(req.params._id);
+  ShipWreck.updateOne(
+    { _id: x },
+    {
+      $set: {
+        feature_type: req.body.feature_type,
+        chart: req.body.chart,
+        latdec: req.body.latdec,
+        londec: req.body.londec,
+        depth: req.body.depth,
+        watlev: req.body.watlev,
+      },
+    },
+  )
+    .exec()
+    .then((data) => {
+      if (data.matchedCount === 0) {
+        return res.status(404).send("Data not found");
+      } else {
+        console.log(data);
+        res.status(201).send("Shipwreck Deleted.");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
-//@type     -   PUT
-//@route    -   /api/profile/update-pwd/:username
-//@desc     -   Update a record on the basis of username
-//@access   -   PUBLIC
-router.put('/update-pwd/:username', (req, res) => {
-    Person.updateOne(
-        {username: req.params.username},
-        { $set: { password: req.body.password }})
-        .exec()
-        .then(() => {
-            res.status(201).send('Password Updated.')
-        })
-        .catch((err) => { console.log(err);
-        })
-})
+router.delete("/data/:_id", (req, res) => {
+  x = new ObjectId(req.params._id);
+  ShipWreck.deleteOne({ _id: x })
+    .exec()
+    .then((data) => {
+      if (data.deletedCount === 0) {
+        return res.status(404).send("Data not found");
+      } else {
+        console.log(data);
+        res.status(201).send("Shipwreck Deleted.");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
-//@type     -   DELETE
-//@route    -   /api/profile/delete/:username
-//@desc     -   Delete a record on the basis of username
-//@access   -   PUBLIC
-router.delete('/delete/:username', (req, res) => {
-    Person.deleteOne({username: req.params.username})
-        .exec()
-        .then(() => {
-            res.status(201).send('Person Deleted.')
-        })
-        .catch((err) => { console.log(err);
-        })
-})
-
-module.exports = router
+module.exports = router;
