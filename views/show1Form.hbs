@@ -1,0 +1,27 @@
+<div class="full-view">
+  <form id="oneData" action="" method="get">
+    <input id="id1" type="text" placeholder="Enter ID" name="_id"/>
+    <br /><br />
+    <button type="button" id="find1" >Find One</button>
+  </form>
+</div>
+<script>
+  const oneAction = document.getElementById('oneData');
+  const id1 = document.getElementById('id1')
+  const button1 = document.getElementById('find1')
+
+    {{!-- id1.addEventListener('input', function() {
+   console.log(id1.value, "Hello");
+    oneAction.setAttribute("action", `/api/shipwreck/data/${id1.value}`);
+   
+    }) --}}
+
+button1.addEventListener('click', function() {
+  console.log("I got clicked")
+  location.href = `/api/shipwreck/data/${id1.value}`
+})
+
+button
+ 
+
+</script>

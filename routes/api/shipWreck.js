@@ -12,11 +12,11 @@ router.get("/addForm", function (req, res) {
 });
 
 router.get("/showDataForm", function (req, res) {
-  res.render("showDataForm");
+  res.render("showAllForm");
 });
 
 router.get("/showOneForm", function (req, res) {
-  res.render("showOneForm");
+  res.render("show1Form");
 });
 
 router.get("/show", function (req, res) {
@@ -46,9 +46,14 @@ router.get("/data", (req, res) => {
       if (!data) {
         res.status(400).send("Data not found");
       } else {
-        res.status(200).json(data);
+        console.log(data)
+        res.status(200).render("show", {
+            data1: data,
+          });
       }
-    }).catch((err) => console.log(err));;
+
+    })
+    .catch((err) => console.log(err));
 });
 
 //Show particular shipwreck based on it's _id in collection
@@ -58,11 +63,14 @@ router.get("/data/:_id", (req, res) => {
     .then((data) => {
       if (!data) {
         return res.status(404).send("Data not found");
-      } else{
-    res.status(200).json(data);
-      console.log(data)
-    }
-})
+      } else {
+        console.log(data)
+
+        res.status(200).render("show", {
+          data2: data,
+        });
+      }
+    })
     .catch((err) => {
       console.log(err);
       res.status(500).send(err);
@@ -77,13 +85,11 @@ router.post("/add", (req, res) => {
     .save()
     .then(
       //Send Feedback Message at Home Page
-      
-      res
-      .render("index", {
+
+      res.render("index", {
         data: "Added Successfully",
       }),
-      console.log(newShipWreck)
-    
+      console.log(newShipWreck),
     )
     .catch((err) => console.log(err));
 });
@@ -92,7 +98,7 @@ router.post("/add", (req, res) => {
 router.post("/update", (req, res) => {
   x = new ObjectId(req.body._id);
   ShipWreck.findOne({ _id: x }).then((shipwreck) => {
-    console.log(shipwreck)
+    console.log(shipwreck);
     if (!shipwreck) {
       res.status(404).render("index", {
         data: "Data Not Found",
@@ -110,7 +116,7 @@ router.post("/update", (req, res) => {
           res.status(201).render("index", {
             data: "Updated Successfully",
           }),
-          console.log(ShipWreck)
+          console.log(ShipWreck),
         )
         .catch((err) => {
           console.log(err);

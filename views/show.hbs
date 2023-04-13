@@ -1,22 +1,23 @@
 <div class="full-view">
-  <div>
-    <a href="/api/shipwreck/showDataForm">Show All</a>
-    <a href="/api/shipwreck/showOneForm">Show One</a>
-  </div>
+<div class="center">
+  <a id="showbtns" href="/api/shipwreck/showDataForm">Show All</a>
+  <a id="showbtns" href="/api/shipwreck/showOneForm">Show One</a>
+</div>
+
 
   {{#if data2}}
       <section class="section">
         <div id="mainPart">
-          <p> Feature Type: {{this.feature_type}}</p>
-          <p> Chart: {{this.chart}}</p>
-          <p> Latitude: {{this.latdec}}</p>
-          <p> Longitude: {{this.londec}}</p>
-          <p> Depth: {{this.depth}}</p>
-          <p> Water Level: {{this.watlev}}</p>
+          <p> Feature Type: {{data2.feature_type}}</p>
+          <p> Chart: {{data2.chart}}</p>
+          <p> Latitude: {{data2.latdec}}</p>
+          <p> Longitude: {{data2.londec}}</p>
+          <p> Depth: {{data2.depth}}</p>
+          <p> Water Level: {{data2.watlev}}</p>
         </div>
       </section>
   {{/if}}
-  
+
   {{#if data1}}
     {{#each data1}}
       <section class="section">
@@ -31,9 +32,5 @@
       </section>
     {{/each}}
   {{/if}}
-
- 
-
-  
 
 </div>
